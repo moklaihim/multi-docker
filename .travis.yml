@@ -12,5 +12,10 @@ script:
 after_success:
   - docker build -t moklaihim/multi-client ./client
   - docker build -t moklaihim/multi-nginx ./nginx
-  - docker build -t moklaihim/multi-sercer ./server
+  - docker build -t moklaihim/multi-server ./server
   - docker build -t moklaihim/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push moklaihim/multi-client
+  - docker push moklaihim/multi-nginx
+  - docker push moklaihim/multi-server
+  - docker push moklaihim/multi-worker
