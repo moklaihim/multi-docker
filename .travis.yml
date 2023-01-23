@@ -1,0 +1,16 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t moklaihim/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true moklaihim/react-test npm test
+
+after_success:
+  - docker build -t moklaihim/multi-client ./client
+  - docker build -t moklaihim/multi-nginx ./nginx
+  - docker build -t moklaihim/multi-sercer ./server
+  - docker build -t moklaihim/multi-worker ./worker
